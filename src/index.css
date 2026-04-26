@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Markd design tokens — single source of truth.
+   Light = warm off-white, deep ink. Dark = warm charcoal.
+   One signal accent (indigo). One supporting amber for warmth.
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Type scale (4px base, perfect-fourth-ish) */
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-md: 17px;
+  --text-lg: 20px;
+  --text-xl: 26px;
+  --text-2xl: 34px;
+  --text-3xl: 44px;
+
+  /* Spring + ease curves */
+  --ease-out-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Radii */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+}
+
+:root {
+  /* Light — warm off-white over deep ink */
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f3f1ea;
+  --surface-3: #ebe8df;
+  --ink: #14130f;
+  --ink-2: #3a3833;
+  --ink-3: #6b6962;
+  --ink-4: #9c9a92;
+  --line: #e6e3d8;
+  --line-strong: #d3cfc1;
+
+  --accent: #3d3df5;          /* saturated indigo */
+  --accent-ink: #ffffff;
+  --accent-soft: #ebebff;
+  --warmth: #d68a3a;          /* used sparingly for highlights */
+  --danger: #c14a4a;
+  --success: #5a8c5a;
+
+  --shadow-sm: 0 1px 2px rgba(20, 19, 15, 0.04);
+  --shadow-md: 0 4px 14px -4px rgba(20, 19, 15, 0.08);
+  --shadow-lg: 0 12px 40px -12px rgba(20, 19, 15, 0.18);
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #15140f;
+  --surface: #1c1b16;
+  --surface-2: #232118;
+  --surface-3: #2c291f;
+  --ink: #f5f1e6;
+  --ink-2: #d6d2c6;
+  --ink-3: #94908a;
+  --ink-4: #6b685f;
+  --line: #2e2b22;
+  --line-strong: #3d3a30;
+
+  --accent: #8a8aff;
+  --accent-ink: #0c0b08;
+  --accent-soft: #1f1f3d;
+  --warmth: #f2b266;
+  --danger: #e07a7a;
+  --success: #84b884;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px -4px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 40px -12px rgba(0, 0, 0, 0.55);
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15140f;
+    --surface: #1c1b16;
+    --surface-2: #232118;
+    --surface-3: #2c291f;
+    --ink: #f5f1e6;
+    --ink-2: #d6d2c6;
+    --ink-3: #94908a;
+    --ink-4: #6b685f;
+    --line: #2e2b22;
+    --line-strong: #3d3a30;
+    --accent: #8a8aff;
+    --accent-ink: #0c0b08;
+    --accent-soft: #1f1f3d;
+    --warmth: #f2b266;
+    --danger: #e07a7a;
+    --success: #84b884;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 14px -4px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 12px 40px -12px rgba(0, 0, 0, 0.55);
+    color-scheme: dark;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-feature-settings: "ss01", "cv11", "calt";
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Selection respects accent */
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* Buttons reset */
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Scrollbar — quiet */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-4);
+}
+
+/* Focus rings — subtle indigo */
+:where(button, a, input, textarea, select, [role="button"]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* Fraunces display moments */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
