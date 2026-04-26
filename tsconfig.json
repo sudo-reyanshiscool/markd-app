@@ -15,6 +15,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "useDefineForClassFields": true,
+    "noEmit": true,
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] },
     "types": ["vite/client"]
