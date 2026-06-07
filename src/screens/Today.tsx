@@ -47,7 +47,7 @@ export function Today() {
       <header className="flex items-end justify-between gap-6">
         <div>
           <p className="text-[12px] uppercase tracking-[0.18em] text-[var(--ink-3)]">{dayLabel}</p>
-          <h1 className="display mt-2 text-[44px] leading-[1.04] tracking-[-0.02em]">
+          <h1 className="display mt-2 text-[32px] leading-[1.06] tracking-[-0.02em] md:text-[44px] md:leading-[1.04]">
             {greeting()}.
           </h1>
         </div>

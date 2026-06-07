@@ -1,5 +1,31 @@
 # Markd Rebuild — Progress log
 
+## 2026-06-07 — mobile / responsive web (`claude/web-mobile-development-zMciK`)
+
+The shell was desktop-only — a fixed `grid-cols-[260px_1fr]` sidebar that ate the
+viewport on a phone. Made the web app usable on mobile without touching the desktop layout.
+
+**Done**
+
+- `AppShell` is now responsive. Desktop (≥`md`) keeps the 260px sidebar unchanged.
+  Below `md` it switches to a sticky, blurred top bar (wordmark + menu button) and a
+  spring slide-in drawer that reuses the same nav + account footer. Drawer closes on
+  route change, backdrop tap, and Escape, and locks body scroll while open.
+- Nav indicator `layoutId` is namespaced per surface (`sidebar-` / `drawer-`) so the
+  sidebar and drawer don't fight over one shared `layoutId`.
+- Top-bar and drawer respect `env(safe-area-inset-top)` (notch / status bar).
+- Content gutters scale down on mobile (`px-5 py-8` → `md:px-10 md:py-12`).
+- Screen H1s scale `28–32px` on mobile → `36–44px` on `md`; Timer card padding
+  `p-6` → `md:p-10`.
+- Auth screen: lighter mobile padding, stacked sections get a top divider instead of a
+  left one, hero headline scales down on small screens.
+
+**Verified**
+
+- `npm run build` clean — 0 type errors. Bundle unchanged (~77 kB gz main).
+- Screenshots skipped — no headless browser in the web container (same constraint as the
+  initial rebuild).
+
 ## 2026-04-26 — initial rebuild on `rebuild` branch
 
 **Decision:** rebuilt in place at `~/my-app/` on a fresh `rebuild` branch (per the user's

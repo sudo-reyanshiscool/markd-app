@@ -89,7 +89,7 @@ export function Tasks() {
       <header className="flex items-end justify-between gap-6">
         <div>
           <p className="text-[12px] uppercase tracking-[0.18em] text-[var(--ink-3)]">Tasks</p>
-          <h1 className="display mt-1 text-[36px] tracking-[-0.02em]">What's on the desk</h1>
+          <h1 className="display mt-1 text-[28px] tracking-[-0.02em] md:text-[36px]">What's on the desk</h1>
         </div>
         <Button variant="primary" iconLeft={<Plus size={16} />} onClick={() => setOpen(true)}>
           New task

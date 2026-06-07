@@ -45,7 +45,7 @@ export function Portfolio() {
       <header className="flex items-end justify-between gap-6">
         <div>
           <p className="text-[12px] uppercase tracking-[0.18em] text-[var(--ink-3)]">Portfolio</p>
-          <h1 className="display mt-1 text-[36px] tracking-[-0.02em]">What you've made</h1>
+          <h1 className="display mt-1 text-[28px] tracking-[-0.02em] md:text-[36px]">What you've made</h1>
         </div>
         <Button variant="primary" iconLeft={<Plus size={16} />} onClick={() => setOpen(true)}>
           New entry

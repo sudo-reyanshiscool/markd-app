@@ -79,11 +79,11 @@ export function Timer() {
     <div className="space-y-10">
       <header>
         <p className="text-[12px] uppercase tracking-[0.18em] text-[var(--ink-3)]">Timer</p>
-        <h1 className="display mt-1 text-[36px] tracking-[-0.02em]">Quiet focus</h1>
+        <h1 className="display mt-1 text-[28px] tracking-[-0.02em] md:text-[36px]">Quiet focus</h1>
       </header>
 
       <Card padded={false} className="overflow-hidden">
-        <div className="grid gap-8 p-10 md:grid-cols-[auto_1fr] md:items-center">
+        <div className="grid gap-8 p-6 md:grid-cols-[auto_1fr] md:items-center md:p-10">
           <div className="relative h-56 w-56 mx-auto">
             <svg viewBox="0 0 200 200" className="h-full w-full -rotate-90">
               <circle

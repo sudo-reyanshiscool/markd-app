@@ -32,7 +32,7 @@ export function Settings() {
     <div className="space-y-10">
       <header>
         <p className="text-[12px] uppercase tracking-[0.18em] text-[var(--ink-3)]">Settings</p>
-        <h1 className="display mt-1 text-[36px] tracking-[-0.02em]">Make it yours</h1>
+        <h1 className="display mt-1 text-[28px] tracking-[-0.02em] md:text-[36px]">Make it yours</h1>
       </header>
 
       <section>

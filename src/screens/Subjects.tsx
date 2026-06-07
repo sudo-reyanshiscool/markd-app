@@ -57,7 +57,7 @@ export function Subjects() {
       <header className="flex items-end justify-between gap-6">
         <div>
           <p className="text-[12px] uppercase tracking-[0.18em] text-[var(--ink-3)]">Subjects</p>
-          <h1 className="display mt-1 text-[36px] tracking-[-0.02em]">Your shelf</h1>
+          <h1 className="display mt-1 text-[28px] tracking-[-0.02em] md:text-[36px]">Your shelf</h1>
         </div>
         <Button
           variant="primary"

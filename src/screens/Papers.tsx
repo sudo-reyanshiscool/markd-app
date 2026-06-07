@@ -9,7 +9,7 @@ export function Papers() {
     <div className="space-y-8">
       <header>
         <p className="text-[12px] uppercase tracking-[0.18em] text-[var(--ink-3)]">Past papers</p>
-        <h1 className="display mt-1 text-[36px] tracking-[-0.02em]">Where to look</h1>
+        <h1 className="display mt-1 text-[28px] tracking-[-0.02em] md:text-[36px]">Where to look</h1>
         <p className="mt-2 max-w-xl text-[14px] leading-relaxed text-[var(--ink-3)]">
           Direct links to the boards and trusted revision sites. Markd doesn't host papers — we
           point you to the official source.

@@ -66,14 +66,14 @@ export function AuthScreen() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={spring.soft}
-        className="flex flex-col justify-between p-12 lg:p-16"
+        className="flex flex-col justify-between gap-10 p-6 sm:p-10 lg:gap-0 lg:p-16"
       >
         <p className="display text-[28px] text-[var(--ink)]">
           Markd<span className="text-[var(--accent)]">.</span>
         </p>
 
         <div className="max-w-md">
-          <h1 className="display text-[44px] leading-[1.04] tracking-tight">
+          <h1 className="display text-[34px] leading-[1.06] tracking-tight sm:text-[44px] sm:leading-[1.04]">
             A calmer way to land your exams.
           </h1>
           <p className="mt-5 text-[16px] leading-relaxed text-[var(--ink-2)]">
@@ -105,7 +105,7 @@ export function AuthScreen() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ ...spring.soft, delay: 0.05 }}
-        className="flex items-center justify-center bg-[var(--surface)] border-l border-[var(--line)] p-12 lg:p-16"
+        className="flex items-center justify-center border-t border-[var(--line)] bg-[var(--surface)] p-6 sm:p-10 lg:border-l lg:border-t-0 lg:p-16"
       >
         <form onSubmit={handle} className="w-full max-w-sm space-y-5">
           <div>
