@@ -42,8 +42,9 @@ function createWebStorage(): KVStorage {
 function createNativeStorage(): KVStorage {
   try {
     // MMKV is a native module: present in dev/EAS builds, absent in Expo Go.
-    const { MMKV } = require("react-native-mmkv") as typeof import("react-native-mmkv");
-    const mmkv = new MMKV({ id: "markd" });
+    const { createMMKV } =
+      require("react-native-mmkv") as typeof import("react-native-mmkv");
+    const mmkv = createMMKV({ id: "markd" });
     return {
       async getItem(key) {
         return mmkv.getString(key) ?? null;
@@ -52,7 +53,7 @@ function createNativeStorage(): KVStorage {
         mmkv.set(key, value);
       },
       async removeItem(key) {
-        mmkv.delete(key);
+        mmkv.remove(key);
       },
     };
   } catch {

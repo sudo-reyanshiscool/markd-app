@@ -1,0 +1,106 @@
+# Supabase CLI local development config for Markd.
+# Reference: https://supabase.com/docs/guides/local-development/cli/config
+
+project_id = "markd"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+# Keep `extensions` on the search path so extension-owned helpers resolve via PostgREST.
+extra_search_path = ["public", "extensions"]
+# Hard cap on rows returned per REST request (pagination guard).
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 17
+
+[db.pooler]
+enabled = false
+port = 54329
+pool_mode = "transaction"
+default_pool_size = 20
+max_client_conn = 100
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[realtime]
+enabled = true
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1"
+
+# Local mail-catcher for auth emails (no real mail leaves the machine).
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+[auth]
+enabled = true
+# Expo web dev server.
+site_url = "http://localhost:8081"
+# Native deep-link scheme for the Expo app (auth redirects back into the app).
+additional_redirect_urls = ["markd://"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+# Local dev: sign-ups work immediately without clicking a confirmation link.
+enable_confirmations = false
+
+[edge_runtime]
+enabled = true
+policy = "oneshot"
+inspector_port = 8083
+
+[analytics]
+enabled = false
+
+# ---------------------------------------------------------------------------
+# Edge Function JWT verification.
+# Only the two payment webhooks are callable without a Supabase JWT — they are
+# authenticated by their own provider signatures (Stripe-Signature header /
+# RevenueCat auth header) inside the function instead.
+# Every user-facing, cost-incurring function keeps verify_jwt = true.
+# ---------------------------------------------------------------------------
+
+[functions.ai-chat]
+verify_jwt = true
+
+[functions.ai-syllabus-breakdown]
+verify_jwt = true
+
+[functions.daily-motivation]
+verify_jwt = true
+
+[functions.calendar-import]
+verify_jwt = true
+
+[functions.share-create]
+verify_jwt = true
+
+[functions.data-export]
+verify_jwt = true
+
+[functions.account-delete]
+verify_jwt = true
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.revenuecat-webhook]
+verify_jwt = false
