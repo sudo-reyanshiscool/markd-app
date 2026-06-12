@@ -1,7 +1,14 @@
-import React from "react";
-import { Platform, View } from "react-native";
+import React, { useRef, useState } from "react";
+import { Platform, Pressable, View } from "react-native";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
+} from "react-native-reanimated";
 
 import {
   Button,
@@ -13,21 +20,83 @@ import {
   Text,
   Wordmark,
 } from "@/components/ui";
+import { loadSampleData } from "@/features/settings/sampleData";
+import { localBackend } from "@/lib/backend";
+import { cheer, tap } from "@/lib/haptics";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { useTheme } from "@/providers/theme";
 import { useSessionStore } from "@/stores/session";
+
+/** Logo tap-streak: this many rapid presses hatches the demo. */
+const HATCH_TAPS = 5;
+const TAP_GAP_MS = 600;
 
 export default function Welcome() {
   const { t } = useTranslation();
   const theme = useTheme();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const enterGuest = useSessionStore((s) => s.enterGuest);
+  const setGuestOnboarded = useSessionStore((s) => s.setGuestOnboarded);
+
+  // Easter egg (and demo shortcut): spam-press the wordmark to skip straight
+  // into guest mode with the sample dataset loaded.
+  const streak = useRef({ count: 0, last: 0 });
+  const [hatching, setHatching] = useState(false);
+  const logoScale = useSharedValue(1);
+  const logoStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: logoScale.value }],
+  }));
+
+  const onLogoPress = () => {
+    const now = Date.now();
+    streak.current =
+      now - streak.current.last < TAP_GAP_MS
+        ? { count: streak.current.count + 1, last: now }
+        : { count: 1, last: now };
+    tap();
+    // pulse harder the closer the streak gets
+    const pop = 1.06 + Math.min(streak.current.count, HATCH_TAPS) * 0.02;
+    logoScale.value = withSequence(
+      withSpring(pop, { damping: 14, stiffness: 500 }),
+      withSpring(1, { damping: 16, stiffness: 360 }),
+    );
+
+    if (streak.current.count >= HATCH_TAPS && !hatching) {
+      setHatching(true);
+      streak.current = { count: 0, last: 0 };
+      void (async () => {
+        try {
+          if (!(await localBackend.hasAnyData())) {
+            await loadSampleData(localBackend);
+          }
+          cheer();
+          enterGuest();
+          setGuestOnboarded(true); // gate flips straight to the dashboard
+          await queryClient.invalidateQueries();
+        } finally {
+          setHatching(false);
+        }
+      })();
+    }
+  };
 
   return (
     <Screen>
       <View style={{ flex: 1, justifyContent: "center", gap: 18 }}>
         <Reveal delay={40}>
-          <Wordmark size={40} />
+          <Pressable
+            onPress={onLogoPress}
+            disabled={hatching}
+            accessibilityRole="image"
+            accessibilityLabel="Markd"
+            testID="logo-easter-egg"
+            style={{ alignSelf: "flex-start" }}
+          >
+            <Animated.View style={logoStyle}>
+              <Wordmark size={40} />
+            </Animated.View>
+          </Pressable>
         </Reveal>
 
         <Reveal delay={120}>
