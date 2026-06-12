@@ -6,29 +6,26 @@ import { Input } from "@/components/ui";
 import { OnboardingFrame } from "@/features/onboarding/Frame";
 import { useOnboardingStore } from "@/stores/onboarding";
 
-export default function StepName() {
+export default function StepCountry() {
   const { t } = useTranslation();
   const router = useRouter();
-  const name = useOnboardingStore((s) => s.name);
+  const country = useOnboardingStore((s) => s.country);
   const set = useOnboardingStore((s) => s.set);
 
   return (
     <OnboardingFrame
-      step={1}
-      title={t("onboarding.nameTitle")}
-      sub={t("onboarding.nameSub")}
-      nextDisabled={name.trim().length === 0}
-      onNext={() => router.push("/onboarding/school")}
-      hideBack
+      step={3}
+      title={t("onboarding.countryTitle")}
+      sub={t("onboarding.countrySub")}
+      onNext={() => router.push("/onboarding/track")}
     >
       <Input
-        value={name}
-        onChangeText={(v) => set({ name: v })}
-        placeholder={t("onboarding.namePlaceholder")}
-        autoFocus
+        value={country}
+        onChangeText={(v) => set({ country: v })}
+        placeholder={t("onboarding.countryPlaceholder")}
         autoCapitalize="words"
         maxLength={80}
-        testID="onboarding-name"
+        testID="onboarding-country"
       />
     </OnboardingFrame>
   );
