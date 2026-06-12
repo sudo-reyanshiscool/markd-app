@@ -48,9 +48,15 @@ export function Sheet({ open, onClose, title, children, maxRatio = 0.86 }: Sheet
         />
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
-          pointerEvents="box-none"
           style={[
-            { position: "absolute", left: 0, right: 0, bottom: 0, top: 0 },
+            {
+              pointerEvents: "box-none",
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 0,
+              top: 0,
+            },
             wide
               ? { alignItems: "center", justifyContent: "center" }
               : { justifyContent: "flex-end" },

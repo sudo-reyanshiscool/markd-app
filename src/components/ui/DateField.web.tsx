@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 
-import { edge, fonts, radius } from "@/constants/theme";
+import { edge, radius } from "@/constants/theme";
 import { useTheme } from "@/providers/theme";
 
 import { Text } from "./Text";

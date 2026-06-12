@@ -1,0 +1,64 @@
+# Maestro critical flow (spec §11) — run on iOS simulator / Android emulator:
+#   maestro test e2e/maestro/critical-flow.yaml
+# Requires a dev-client or release build with the app installed.
+appId: com.markd.app
+---
+- launchApp:
+    clearState: true
+
+# welcome → guest mode
+- tapOn:
+    id: "guest-mode"
+
+# onboarding
+- tapOn:
+    id: "onboarding-name"
+- inputText: "Quinn"
+- tapOn:
+    id: "onboarding-next"
+- tapOn: # school → skip
+    id: "onboarding-next"
+- tapOn: # country → skip
+    id: "onboarding-next"
+- tapOn:
+    id: "track-gcse"
+- tapOn:
+    id: "onboarding-next"
+- tapOn:
+    id: "year-Year-11"
+- tapOn:
+    id: "onboarding-next"
+- tapOn:
+    id: "onboarding-subject"
+- inputText: "Mathematics"
+- hideKeyboard
+- tapOn:
+    id: "onboarding-next"
+- tapOn:
+    id: "onboarding-finish"
+
+# home renders with seeded tasks
+- assertVisible: "Yo Quinn"
+- runFlow:
+    when:
+      visible: "No thanks"
+    commands:
+      - tapOn: "No thanks"
+- assertVisible: "Plan your study schedule"
+
+# quick-add a task with NLP
+- tapOn: "TASKS"
+- tapOn:
+    id: "quick-add"
+- inputText: "essay mathematics tomorrow 1h !"
+- hideKeyboard
+- tapOn:
+    id: "quick-add-submit"
+- assertVisible: "essay"
+
+# focus timer opens
+- tapOn: "MORE"
+- tapOn: "Focus timer"
+- tapOn:
+    id: "focus-start"
+- assertVisible: "PAUSE"

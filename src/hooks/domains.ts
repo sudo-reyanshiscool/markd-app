@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   CalendarEvent,
@@ -8,7 +8,6 @@ import {
   Goal,
   Subject,
   Task,
-  TopicConfidence,
 } from "@/db/schemas";
 import { useBackend, useDataScope } from "@/lib/backend";
 import {

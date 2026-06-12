@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, StyleProp, View, ViewStyle } from "react-native";
+import { ActivityIndicator, StyleProp, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { fonts, radius } from "@/constants/theme";

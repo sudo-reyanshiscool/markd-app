@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Ionicons } from "@expo/vector-icons";
 
 import {
   Chip,

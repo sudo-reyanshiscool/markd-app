@@ -20,8 +20,8 @@ export function FAB({ onPress, label, icon = "add", aboveDock = true }: FABProps
   const insets = useSafeAreaInsets();
   return (
     <View
-      pointerEvents="box-none"
       style={{
+        pointerEvents: "box-none",
         position: "absolute",
         right: 18,
         bottom: (aboveDock ? 104 : 24) + insets.bottom,

@@ -46,11 +46,14 @@ export function Doodle({
 
   return (
     <Svg
-      pointerEvents="none"
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      style={[rotate ? { transform: [{ rotate: `${rotate}deg` }] } : null, style]}
+      style={[
+        { pointerEvents: "none" },
+        rotate ? { transform: [{ rotate: `${rotate}deg` }] } : null,
+        style,
+      ]}
     >
       <Path
         d={PATHS[kind]}

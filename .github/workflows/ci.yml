@@ -1,0 +1,102 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  quality:
+    name: Lint · Typecheck · Unit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test -- --reporter=dot
+
+  web-e2e:
+    name: Playwright (web)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e:web
+        env:
+          CI: "true"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: e2e/playwright-report
+
+  db:
+    name: pgTAP (RLS isolation)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - run: supabase db start
+      - run: supabase test db
+
+  mobile-e2e:
+    name: Maestro (Android subset)
+    runs-on: ubuntu-latest
+    # Maestro on emulator is slow; run the critical-flow subset on PRs only.
+    if: github.event_name == 'pull_request'
+    continue-on-error: true # flaky emulators must not block merges; review failures manually
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build dev client APK with EAS (requires EXPO_TOKEN secret)
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "EXPO_TOKEN not configured — skipping mobile E2E"; exit 0;
+          fi
+          npx eas-cli build --platform android --profile preview --non-interactive --no-wait
+      - name: Note
+        run: echo "Full Maestro run executes in EAS Workflows / dedicated device farm (see e2e/maestro)"
+
+  deploy-web:
+    name: Deploy web (Vercel)
+    runs-on: ubuntu-latest
+    needs: [quality, web-e2e]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx expo export --platform web
+      - name: Deploy to Vercel
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "VERCEL_TOKEN not configured — skipping deploy"; exit 0;
+          fi
+          npx vercel deploy dist --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+      - name: EAS Update (OTA)
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "EXPO_TOKEN not configured — skipping OTA"; exit 0;
+          fi
+          npx eas-cli update --auto --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}

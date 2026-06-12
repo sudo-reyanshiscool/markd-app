@@ -12,8 +12,7 @@ export function DotGrid({ opacity = 0.35 }: { opacity?: number }) {
   const theme = useTheme();
   return (
     <Svg
-      pointerEvents="none"
-      style={[StyleSheet.absoluteFill, { opacity }]}
+      style={[StyleSheet.absoluteFill, { opacity, pointerEvents: "none" }]}
       width="100%"
       height="100%"
     >

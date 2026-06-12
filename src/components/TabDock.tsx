@@ -71,10 +71,10 @@ function DockTab({
     >
       <View style={{ width: 40, height: 32, alignItems: "center", justifyContent: "center" }}>
         <Animated.View
-          pointerEvents="none"
           style={[
             bubbleStyle,
             {
+              pointerEvents: "none",
               position: "absolute",
               width: 40,
               height: 32,
@@ -115,8 +115,8 @@ export function TabDock({ state, descriptors, navigation }: BottomTabBarProps) {
 
   return (
     <View
-      pointerEvents="box-none"
       style={{
+        pointerEvents: "box-none",
         position: "absolute",
         left: 0,
         right: 0,

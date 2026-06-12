@@ -109,8 +109,8 @@ export function Slab({
     >
       {shadow ? (
         <View
-          pointerEvents="none"
           style={{
+            pointerEvents: "none",
             position: "absolute",
             top: shadowOffset,
             left: shadowOffset,
@@ -155,8 +155,8 @@ export function Slab({
     >
       {shadow ? (
         <View
-          pointerEvents="none"
           style={{
+            pointerEvents: "none",
             position: "absolute",
             top: shadowOffset,
             left: shadowOffset,

@@ -74,10 +74,10 @@ export function TaskRow({ task, subject, onComplete, onUncomplete, onPress }: Ta
     <View>
       {/* swipe reveal layer */}
       <Animated.View
-        pointerEvents="none"
         style={[
           revealStyle,
           {
+            pointerEvents: "none",
             position: "absolute",
             left: 0,
             top: 0,
